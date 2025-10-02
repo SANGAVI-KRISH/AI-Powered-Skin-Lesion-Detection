@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Lesion Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #83a4d4, #b6fbff);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .navbar {
+            background: #004080;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+
+        .navbar a:hover, .navbar a.active {
+            background: #002b5e;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+        }
+
+
+        .container {
+            max-width: 700px;
+            margin: 80px auto 50px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+
+        .active-section {
+            background: #f0f8ff;
+        }
+
+
+        h1, h2 {
+            color: #333;
+        }
+
+
+        .info {
+            text-align: left;
+            padding: 10px;
+        }
+
+
+        .highlight {
+            font-weight: bold;
+            color: #c82333;
+        }
+
+
+        input[type="file"] {
+            display: none;
+        }
+
+
+        .file-label {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+
+        .file-label:hover {
+            background: #0056b3;
+        }
+
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+
+        button:hover {
+            background: #218838;
+        }
+
+
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+
+
+        .safe {
+            color: green;
+            font-weight: bold;
+        }
+
+
+        .food-recommendation {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#general-info">General Info</a>
+        <a href="#causes">Causes</a>
+        <a href="#treatment">Treatment</a>
+    </div>
+
+
+    <div class="container" id="home">
+        <h1>Skin Lesion Classifier</h1>
+        <p>An AI-powered tool to detect whether a skin lesion is <span class="highlight">benign</span> or <span class="highlight">melanoma</span>.</p>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <label for="file" class="file-label">Choose File</label>
+            <input type="file" id="file" name="file" accept="image/*">
+            <br>
+            <button type="submit">Predict</button>
+        </form>
+       
+        {% if result %}
+        <div class="result-container">
+            <h3>Prediction Result:</h3>
+            <p class="{% if 'Melanoma' in result %}warning{% else %}safe{% endif %}">{{ result }}</p>
+            <img src="{{ image_path }}" alt="Uploaded Image" width="300">
+            {% if "Melanoma" in result %}
+                <p class="warning">⚠️ This might be a serious condition! Please consult a doctor immediately.</p>
+                <p class="food-recommendation">🍎 Recommended Foods: Green leafy vegetables, berries, nuts, and fish for skin health.</p>
+            {% else %}
+                <p class="safe">✅ Your lesion appears benign, but monitor it for any changes.</p>
+                <p class="food-recommendation">🥑 Healthy skin tips: Stay hydrated, eat fresh fruits, and apply sunscreen.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+
+    <div class="container" id="about">
+        <h2>About</h2>
+        <p>Skin lesions refer to abnormal growths or changes in the skin. They can be harmless or indicate serious conditions such as melanoma. Early detection and diagnosis can significantly improve treatment outcomes.</p>
+    </div>
+
+
+    <div class="container" id="general-info">
+        <h2>General Info</h2>
+        <p>A skin lesion is any abnormality on the skin, including rashes, moles, sores, or discoloration. Skin lesions have been studied for centuries, with early records indicating various natural remedies and surgical treatments.</p>
+    </div>
+
+
+    <div class="container" id="causes">
+        <h2>Causes</h2>
+        <p>Common causes include excessive sun exposure, genetic predisposition, viral infections, allergic reactions, and chronic diseases like diabetes or autoimmune disorders.</p>
+    </div>
+
+
+    <div class="container" id="treatment">
+        <h2>Treatment</h2>
+        <p>Treatment options vary based on the severity of the lesion. Mild cases may be treated with topical creams, while serious cases like melanoma require surgical removal, chemotherapy, or radiation therapy.</p>
+    </div>
+</body>
+</html>
